@@ -14,7 +14,7 @@ WildGunman::WildGunman()
 
 	//cargo fuente para textos del juego
 	fuente.loadFromFile("archivos/ROCK.ttf");
-	pausa = "JUEGO PAUSADO";
+	pausa = "   JUEGO PAUSADO";
 	textoPunt.setCharacterSize(35);
 	textoPunt.setStyle(sf::Text::Bold);
 	texto.setFont(fuente);
@@ -47,8 +47,12 @@ WildGunman::WildGunman()
 
 void WildGunman::ActualizarElementos(sf::Time t)
 {
+	for (int i = 0; i <= 5; i++) {
+		arrayPosOcupadas[i] = arrayEnemigos[i].actualizar(t);
+	}
 	if (!enjuego) {
 		ventanajuego.draw(MostrarMensaje(pausa));
+		ventanajuego.draw(MostrarMensaje(impactado));
 		ventanajuego.draw(textoPunt);
 		sprVidas.setPosition(vidasX, vidasY);
 		for (int i = 1; i <= Jugador1.cantVidas(); i++) {
@@ -79,20 +83,8 @@ void WildGunman::ActualizarElementos(sf::Time t)
 }
 
 void WildGunman::AdministrarPersonajes(sf::Time t)
-{/*
-	int intervalo, selector;
-	while (contadorPersonajes < 5)
-	{
-		intervalo = rand() % 2 + 1;
-		selector = rand() % 6;
-		if (selector = 7) {
-
-		}
-		if (arrayPosOcupadas[selector]) {
-
-		}
-
-	}*/
+{
+	
 }
 
 
@@ -106,16 +98,19 @@ void WildGunman::PausarJuego()
 	}
 }
 
-bool WildGunman::CapturarClic(int xCapt, int yCapt)
+bool WildGunman::CapturarClic(int xCapt, int yCapt, int &posicion)
 {	
 	bool acierto = false;
 	xCapt += 20;
 	yCapt += 20;
-	for (int i = 0; i < 6; i++) {
+	int i = 0;
+	while ((i!=6) && (!acierto)) {
 		if ( (xCapt >= areaPersonajes[i][0]) && (xCapt <= areaPersonajes[i][2]) && 
 				(yCapt >= areaPersonajes[i][1]) && (yCapt <= areaPersonajes[i][3]) ) {
 			acierto = true;
+			posicion = i;
 		}
+		i++;
 	}
 	if (acierto) {
 		return true;
@@ -157,7 +152,9 @@ void WildGunman::Jugar()
 					tiempo = reloj.getElapsedTime();
 					textoTiempo.setString(std::to_string(tiempo.asSeconds()));
 					textoTiempo.setPosition(0, 40);
-					if (CapturarClic(posicionMouse.x, posicionMouse.y)) {
+					int pos;
+					if (CapturarClic(posicionMouse.x, posicionMouse.y, pos)) {
+						impactado = std::to_string(pos);
 						PausarJuego();
 					}
 					//enemigo

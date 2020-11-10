@@ -14,7 +14,7 @@ private:
 	sf::Sprite sprFondo, sprMouse, sprVidas;
 	sf::Font fuente;
 	sf::Text texto, textoTiempo, textoPunt;
-	sf::String pausa, posX, posY, cadena;
+	sf::String pausa, posX, posY, cadena, impactado;
 	bool enjuego;
 	int vidasX, vidasY, contadorPersonajes;
 	int arrayPosiciones[6][2] = { {107,223}, {254,223}, {401,223}, {107,412}, {401,412}, {252,415} };
@@ -33,7 +33,7 @@ public:
 	void ActualizarElementos(sf::Time t);
 	void AdministrarPersonajes(sf::Time t);
 	void PausarJuego();
-	bool CapturarClic(int xCapt, int yCapt);
+	bool CapturarClic(int xCapt, int yCapt, int &posicion);
 	sf::Text MostrarMensaje(sf::String msj);
 	void Jugar();
 };
