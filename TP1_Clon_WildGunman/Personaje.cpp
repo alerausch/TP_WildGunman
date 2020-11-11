@@ -1,5 +1,10 @@
 #include "Personaje.h"
 
+Personaje::Personaje()
+{
+	tiempoAcum = sf::seconds(0);
+}
+
 Personaje::Personaje(sf::String text, int x, int y, float durac)
 {
 	textura.loadFromFile(text);
@@ -38,12 +43,14 @@ void Personaje::ocultar()
 {
 	if (visible) {
 		visible = false;
+		tiempoAcum = sf::seconds(0);
 	}
 }
 
 bool Personaje::actualizar(sf::Time &tiempo)
 {
-	if (tiempo > tiempoVida) {
+	tiempoAcum = tiempoAcum + timer.restart();
+	if (tiempoAcum > tiempoVida) {
 		visible = false;
 		return false;
 	}

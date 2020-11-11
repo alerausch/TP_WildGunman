@@ -17,6 +17,7 @@ private:
 	sf::String pausa, posX, posY, cadena, impactado;
 	bool enjuego;
 	int vidasX, vidasY, contadorPersonajes;
+	//array con las coordenadas de las posiciones donde aparecen los personajes
 	int arrayPosiciones[6][2] = { {107,223}, {254,223}, {401,223}, {107,412}, {401,412}, {252,415} };
 	bool arrayPosOcupadas[6] = { false, false, false, false, false,false };
 	//array que contiene al area que ocupan los personajes {{xInic, yInic, xFin, yFin} 
@@ -24,7 +25,7 @@ private:
 									{127,432,202,540}, {421,432,496,540}, {272,435,347,545} };
 	sf::String arrayTexturas[4] = { "archivos/enemigo1.png", "archivos/enemigo2.png", 
 									"archivos/enemigo3.png", "archivos/inocente1.png"};
-	float arrayTiempos[3] = { 2, 3, 4 };
+	float arrayTiempos[5] = { 0.5, 1, 1.5, 2, 2.5 };
 	Jugador Jugador1;
 	Enemigo arrayEnemigos[6];
 	Inocente inocente1;

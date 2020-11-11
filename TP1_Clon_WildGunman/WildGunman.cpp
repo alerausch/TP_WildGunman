@@ -84,6 +84,11 @@ void WildGunman::ActualizarElementos(sf::Time t)
 
 void WildGunman::AdministrarPersonajes(sf::Time t)
 {
+	/*int intervalo = rand() % 
+	if (contadorPersonajes < 4) && ( {
+		sf::Time tiempoDesdeAnterior = reloj.restart();
+		int intervalo
+	}*/
 	
 }
 

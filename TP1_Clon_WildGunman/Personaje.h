@@ -4,12 +4,13 @@
 class Personaje {
 protected:
 	bool visible;
-	sf::Time tiempoVida;
+	sf::Clock timer;
+	sf::Time tiempoVida, tiempoAcum;
 	int posX, posY;
 	sf::Texture textura;
 	sf::Sprite sprite;
 public:
-	Personaje() {}; //constructor nulo
+	Personaje(); 
 	Personaje(sf::String text, int x, int y, float durac);
 	sf::Sprite mostrar();
 	void setearPosicion(int x, int y);
