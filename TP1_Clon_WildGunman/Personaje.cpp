@@ -18,7 +18,6 @@ Personaje::Personaje(sf::String text, int x, int y, float durac)
 sf::Sprite Personaje::mostrar()
 {
 	sprite.setPosition(posX, posY);
-	visible = true;
 	return sprite;
 }
 
@@ -39,19 +38,17 @@ void Personaje::setearTiempoVida(float durac)
 	tiempoVida = sf::seconds(durac);
 }
 
-void Personaje::ocultar()
+void Personaje::setearVisible()
 {
-	if (visible) {
-		visible = false;
-		tiempoAcum = sf::seconds(0);
-	}
+	visible = true;
 }
 
-bool Personaje::actualizar(sf::Time &tiempo)
+bool Personaje::actualizar()
 {
 	tiempoAcum = tiempoAcum + timer.restart();
 	if (tiempoAcum > tiempoVida) {
 		visible = false;
+		//tiempoAcum = sf::seconds(0);
 		return false;
 	}
 	else {

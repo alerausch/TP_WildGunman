@@ -157,16 +157,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Enemigo.cpp" />
-    <ClCompile Include="Inocente.cpp" />
     <ClCompile Include="Jugador.cpp" />
     <ClCompile Include="Personaje.cpp" />
     <ClCompile Include="TP1_Clon_WildGunman.cpp" />
     <ClCompile Include="WildGunman.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemigo.h" />
-    <ClInclude Include="Inocente.h" />
     <ClInclude Include="Jugador.h" />
     <ClInclude Include="Personaje.h" />
     <ClInclude Include="WildGunman.h" />

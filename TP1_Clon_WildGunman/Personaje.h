@@ -16,7 +16,7 @@ public:
 	void setearPosicion(int x, int y);
 	void setearSprite(sf::String text);
 	void setearTiempoVida(float durac);
-	void ocultar();
-	bool actualizar(sf::Time &tiempo);
+	void setearVisible();
+	bool actualizar();
 };
 

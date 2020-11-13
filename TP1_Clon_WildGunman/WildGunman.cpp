@@ -23,33 +23,27 @@ WildGunman::WildGunman()
 	textoPunt.setFont(fuente);
 	textoPunt.setFillColor(sf::Color::Green);
 	srand(time(NULL));
-	//int posicion = rand() % 6;
-	
-	/*for (int i = 0; i <= 5; i++) {
-		int posicion = rand() % 3;
-		arrayEnemigos[i].setearSprite(arrayTexturas[posicion]);
-		arrayEnemigos[i].setearPosicion(arrayPosiciones[i][0], arrayPosiciones[i][1]);
-	}*/
+	//creo los personajes bandidos en el array
+	for (int i = 0; i < 6; i++) {
+		int posicion = rand() % 2;
+		arrayPersonajes[i].setearSprite(arrayTexturas[posicion]);
+		arrayPersonajes[i].setearPosicion(arrayPosiciones[i][0], arrayPosiciones[i][1]);
+		arrayPersonajes[i].setearTiempoVida(rand() % 5 + 2);
+	}
+	//creo un inocente en la ultima posicion del array de personajes
+	arrayPersonajes[6].setearSprite(arrayTexturas[3]);
+	arrayPersonajes[6].setearPosicion(255,415);
+	arrayPersonajes[6].setearTiempoVida(3);
 
-	//enemigo de prueba
-	arrayEnemigos[0].setearSprite(arrayTexturas[2]);
-	arrayEnemigos[0].setearPosicion(arrayPosiciones[2][0], arrayPosiciones[2][1]);
-	arrayEnemigos[0].setearTiempoVida(4);
-	///////////////////
 	vidasX = 115;
 	vidasY = 580;
-	inocente1.setearSprite(arrayTexturas[3]);
-	inocente1.setearPosicion(255, 415);
-	inocente1.setearTiempoVida(3);
 	enjuego = true;
 	contadorPersonajes = 0;
+	transcurrido = sf::seconds(0);
 }
 
 void WildGunman::ActualizarElementos(sf::Time t)
 {
-	for (int i = 0; i <= 5; i++) {
-		arrayPosOcupadas[i] = arrayEnemigos[i].actualizar(t);
-	}
 	if (!enjuego) {
 		ventanajuego.draw(MostrarMensaje(pausa));
 		ventanajuego.draw(MostrarMensaje(impactado));
@@ -61,19 +55,34 @@ void WildGunman::ActualizarElementos(sf::Time t)
 		}
 	}
 	else {
-		tiempo = reloj.getElapsedTime();
-		if (inocente1.actualizar(tiempo)) {
-			ventanajuego.draw(inocente1.mostrar());
+		if ((contadorPersonajes >= 0) && (contadorPersonajes <3)) {
+			indice = rand() % 6;
+			/*float comparador = 0;
+			delta = reloj.getElapsedTime();
+			transcurrido = delta - transcurrido;
+			comparador = transcurrido.asSeconds();
+			arrayTimers[indice] = arrayTimers[indice] + transcurrido;*/
+			if (!arrayPosOcupadas[indice]) {
+				//transcurrido = sf::seconds(0);
+				arrayPosOcupadas[indice] = true;
+				//arrayTimers[indice] = arrayTimers[indice] + t;
+				contadorPersonajes++;
+			}
+
 		}
-		if (arrayEnemigos[0].actualizar(tiempo)) {
-			ventanajuego.draw(arrayEnemigos[0].mostrar());
+		//ventanajuego.draw(arrayPersonajes[6].mostrar());
+		//dibujo los personajes que estan activos
+		for (int i = 0; i < 7; i++) {
+			if (arrayPosOcupadas[i] && arrayPersonajes[i].actualizar()) {
+				ventanajuego.draw(arrayPersonajes[i].mostrar());
+			}
 		}
+
 		sprVidas.setPosition(vidasX, vidasY);
 		for (int i = 1; i <= Jugador1.cantVidas(); i++) {
 			ventanajuego.draw(sprVidas);
 			sprVidas.setPosition(sprVidas.getPosition().x + 35, vidasY);
 		}
-
 		texto.setPosition(0, 0);
 		ventanajuego.draw(texto);
 		ventanajuego.draw(textoTiempo);
@@ -81,17 +90,6 @@ void WildGunman::ActualizarElementos(sf::Time t)
 		ventanajuego.draw(textoPunt);
 	}
 }
-
-void WildGunman::AdministrarPersonajes(sf::Time t)
-{
-	/*int intervalo = rand() % 
-	if (contadorPersonajes < 4) && ( {
-		sf::Time tiempoDesdeAnterior = reloj.restart();
-		int intervalo
-	}*/
-	
-}
-
 
 void WildGunman::PausarJuego()
 {
@@ -135,8 +133,6 @@ sf::Text WildGunman::MostrarMensaje(sf::String msj)
 
 void WildGunman::Jugar()
 {
-	// Reiniciamos el reloj almacenando el tiempo pasado
-	//tiempo = reloj.restart();
 	while (ventanajuego.isOpen())
 	{
 		sf::Event evento;
@@ -159,8 +155,10 @@ void WildGunman::Jugar()
 					textoTiempo.setPosition(0, 40);
 					int pos;
 					if (CapturarClic(posicionMouse.x, posicionMouse.y, pos)) {
-						impactado = std::to_string(pos);
-						PausarJuego();
+						if (arrayPosOcupadas[pos]) {
+							arrayPosOcupadas[pos] = false;
+							contadorPersonajes--;
+						}
 					}
 					//enemigo
 				}
@@ -184,7 +182,7 @@ void WildGunman::Jugar()
 		ventanajuego.draw(sprFondo);
 		
 		//dibujo personajes - vidas - puntos
-		tiempo = reloj.getElapsedTime();
+		tiempo = reloj.restart();
 		ActualizarElementos(tiempo);
 		
 		
