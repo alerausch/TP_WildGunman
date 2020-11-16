@@ -3,11 +3,13 @@
 #include <SFML/Audio.hpp>
 class Jugador{
 private:
-	int vidas, puntos;
+	int vidas, puntos, abatidos;
 public:
 	Jugador();
 	int cantVidas();
-	int restarVidas();
+	void restarVidas();
+	void setPuntos();
+	void setAbatidos();
 	sf::String verPuntos();
 };
 

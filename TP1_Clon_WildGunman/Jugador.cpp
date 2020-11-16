@@ -2,6 +2,7 @@
 Jugador::Jugador() {
 	vidas = 3;
 	puntos = 0;
+	abatidos = 0;
 }
 
 int Jugador::cantVidas()
@@ -9,12 +10,21 @@ int Jugador::cantVidas()
 	return vidas;
 }
 
-int Jugador::restarVidas()
+void Jugador::restarVidas()
 {
 	if (vidas > 0) {
 		vidas--;
-	};
-	return vidas;
+	}
+}
+
+void Jugador::setPuntos()
+{
+	puntos =  (abatidos - (3-vidas)) * 10;
+}
+
+void Jugador::setAbatidos()
+{
+	abatidos++;
 }
 
 sf::String Jugador::verPuntos()

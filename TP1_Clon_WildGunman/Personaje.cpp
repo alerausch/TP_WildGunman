@@ -3,15 +3,15 @@
 Personaje::Personaje()
 {
 	tiempoAcum = sf::seconds(0);
+	visible = false;
 }
 
-Personaje::Personaje(sf::String text, int x, int y, float durac)
+Personaje::Personaje(sf::String text, int x, int y)
 {
 	textura.loadFromFile(text);
 	sprite.setTexture(textura);
 	posX = x;
 	posY = y;
-	tiempoVida = sf::seconds(durac);
 	visible = false;
 }
 
@@ -19,6 +19,26 @@ sf::Sprite Personaje::mostrar()
 {
 	sprite.setPosition(posX, posY);
 	return sprite;
+}
+
+bool Personaje::verTipo()
+{
+	if (tipo) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void Personaje::setearTipo(bool t)
+{
+	tipo = t;
+}
+
+void Personaje::setearVisible(bool v)
+{
+	visible = v;
 }
 
 void Personaje::setearPosicion(int x, int y)
@@ -36,22 +56,19 @@ void Personaje::setearSprite(sf::String text)
 void Personaje::setearTiempoVida(float durac)
 {
 	tiempoVida = sf::seconds(durac);
+	tiempoAcum = sf::seconds(0);
 }
 
-void Personaje::setearVisible()
+bool Personaje::actualizar(sf::Time t)
 {
-	visible = true;
-}
+	tiempoAcum = tiempoAcum + t;
 
-bool Personaje::actualizar()
-{
-	tiempoAcum = tiempoAcum + timer.restart();
 	if (tiempoAcum > tiempoVida) {
 		visible = false;
-		//tiempoAcum = sf::seconds(0);
 		return false;
 	}
 	else {
+		visible = true;
 		return true;
 	}
 }
